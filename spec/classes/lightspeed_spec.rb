@@ -30,12 +30,15 @@ describe 'lightspeed' do
             'mode'   => '0600'
           ).
           # Check that these parameters are contained within (technically, anywhere AFTER) their approprate [] sections.
+          with_content(%r{^\[database\](?:.*\n)*type = "sqlite"$}m).
+          with_content(%r{^\[database\](?:.*\n)*connection_string = "/var/lib/command-line-assistant/history.db"$}m).
           with_content(%r{^\[history\](?:.*\n)*enabled = true$}m).
           with_content(%r{^\[backend\](?:.*\n)*endpoint = "https://api\.example\.com"$}m).
           with_content(%r{^\[backend.auth\](?:.*\n)*cert_file = "/etc/pki/consumer/cert.pem"$}m).
           with_content(%r{^\[backend.auth\](?:.*\n)*key_file = "/etc/pki/consumer/key.pem"$}m).
           with_content(%r{^\[backend.auth\](?:.*\n)*verify_ssl = true$}m).
           with_content(%r{^\[logging\](?:.*\n)*level = "INFO"$}m).
+          with_content(%r{^\[logging\](?:.*\n)*enabled = false$}m).
           that_requires('Package[command-line-assistant]')
       end
 
