@@ -79,8 +79,9 @@ class lightspeed (
   }
 
   service { $service_name:
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    require => File[$config_file_name],
+    ensure    => $service_ensure,
+    enable    => $service_enable,
+    require   => File[$config_file_name],
+    subscribe => File[$config_file_name],
   }
 }
