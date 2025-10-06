@@ -29,10 +29,13 @@ describe 'lightspeed' do
             'group'  => 'root',
             'mode'   => '0600'
           ).
-          # Check that 'endpoint' parameter is contained within (technically, anywhere AFTER) the [backend] section.
+          # Check that these parameters are contained within (technically, anywhere AFTER) their approprate [] sections.
+          with_content(%r{^\[history\](?:.*\n)*enabled = true$}m).
           with_content(%r{^\[backend\](?:.*\n)*endpoint = "https://api\.example\.com"$}m).
-          with_content(%r{^verify_ssl = true$}).
-          with_content(%r{^level = "INFO"$}).
+          with_content(%r{^\[backend.auth\](?:.*\n)*cert_file = "/etc/pki/consumer/cert.pem"$}m).
+          with_content(%r{^\[backend.auth\](?:.*\n)*key_file = "/etc/pki/consumer/key.pem"$}m).
+          with_content(%r{^\[backend.auth\](?:.*\n)*verify_ssl = true$}m).
+          with_content(%r{^\[logging\](?:.*\n)*level = "INFO"$}m).
           that_requires('Package[command-line-assistant]')
       end
 
